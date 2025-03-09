@@ -42,7 +42,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up JDK 21 (only for Java)
+    - name: Set up JDK 21 for Java
       if: matrix.language == 'java'
       uses: actions/setup-java@v3
       with:
@@ -64,16 +64,13 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Build with Maven (only for Java)
-      if: matrix.language =='java'
-      
-    - name: Autobuild for JavaScript
-      if: matrix.language == 'javascript'
-      uses: github/codeql-action/autobuild@v3
-
     - name: Build Java project with Maven
       if: matrix.language == 'java'
       run: mvn clean package
+
+    - name: Autobuild for JavaScript
+      if: matrix.language == 'javascript'
+      uses: github/codeql-action/autobuild@v3
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
